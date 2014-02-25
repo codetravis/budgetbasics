@@ -1,4 +1,4 @@
-$def with ()
+$def with (variable_exp, fixed_exp)
 
 <h1>Budget Basics</h1>
 <div class="graph">
@@ -6,7 +6,11 @@ $def with ()
 </div>
 <div class="column_1">
     <h2>Variable Expense</h2>
+    $for exp in variable_exp:
+        <p>$exp.name</p><p>$exp.amount</p>
 </div>
 <div class="column_2">
     <h2>Fixed Expense</h2>
+    $for exp in fixed_exp:
+        <p>$exp.name</p><p>$exp.amount</p>
 </div>

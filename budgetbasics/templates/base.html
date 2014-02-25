@@ -1,0 +1,17 @@
+$def with (body)
+<!DOCTYPE html>
+<html>
+<head>
+    $if hasatt(body, 'title'):
+        <title>$body.title</title>
+    <link type="text/css" rel="stylesheet" href="./static/styles/base.css" />
+</head>
+<body>
+    <div class="main_menu">
+        <a href="/expense_form">Add Expense</a>
+    </div>
+    <div class="body_wrapper">
+        $:body
+    </div> 
+</body>
+</html>

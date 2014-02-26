@@ -2,7 +2,7 @@ $def with (body)
 <!DOCTYPE html>
 <html>
 <head>
-    $if hasatt(body, 'title'):
+    $if hasattr(body, 'title'):
         <title>$body.title</title>
     <link type="text/css" rel="stylesheet" href="./static/styles/base.css" />
 </head>

@@ -1,12 +1,13 @@
 $def with ()
 
-<form method="post" action="add_expense">
-    <p>Name<input type="text" name="exp_name"/></p>
-    <p>Type<select name="exp_type">
-        <option>Fixed</option>
-        <option>Variable</option>
+<form id="new_expense" method="post" action="add_expense">
+    <p>Name: <input type="text" name="exp_name"/></p>
+    <p>Type: <select name="exp_type">
+        <option value="Fixed">Fixed</option>
+        <option value="Variable">Variable</option>
         </select>
     </p>
-    <p>Amount<input type="text" name="exp_amount"/></p>
+    <p>Expense Date (YYYY-m-d): <input type="date" name="exp_date"/></p>
+    <p>Amount: $$<input type="number" name="exp_amount"/></p>
     <input type="submit" value="Add Expense"/>
 </form>

@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `expenses` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
+    `expense_date` date NOT NULL, 
     `amount` decimal(10,2) NOT NULL,
     `type` varchar(15) NOT NULL,
     PRIMARY KEY (`id`)

@@ -45,12 +45,16 @@ $var title: "Budget Basics"
 <div class="column_1">
     <h2>Variable Expense</h2>
     $for exp in variable_exp:
-        <p>$exp.name</p><p>$exp.amount</p>
+        <div class="expense">
+        <p class="exp_name">$exp.name</p><p class="exp_amount">$exp.amount</p>
+        </div>
 </div>
 <div class="column_2">
     <h2>Fixed Expense</h2>
     $for exp in fixed_exp:
-        <p>$exp.name</p><p>$exp.amount</p>
+        <div class="expense">
+        <p class="exp_name">$exp.name</p><p class="exp_amount">$exp.amount</p>
+        </div>
 </div>
 <script type="text/javascript">
     var ctx = document.getElementById("main_chart").getContext("2d");

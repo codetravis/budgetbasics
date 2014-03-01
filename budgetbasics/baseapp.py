@@ -21,7 +21,7 @@ urls = (
 )
 
 class ChartExpense:
-    def __init__(self, day=None, month=None, year=None, amount=0):
+    def __init__(self, day=1, month=1, year=1, amount=0):
         self.day = day
         self.month = month
         self.year = year
@@ -29,14 +29,19 @@ class ChartExpense:
 
 def week_exp_list(expenses, term="week"):
     exp_list = []
+    # initialize list
     today = datetime.date.today()
+    for i in range(0, 31):
+        if (today.day - i > 0):
+            new_exp = ChartExpense(today.day - i, today.month, today.year)
+        else:
+            new_exp = ChartExpense(30 - i + today.day, today.month - 1, today.year)
+        exp_list.append(new_exp)
+    # fill values
     for expense in expenses:
         if term == "week":
             if (today - expense.expense_date).days < 7 and (today - expense.expense_date).days >= 0:
-                new_exp = ChartExpense(expense.expense_date.day, 
-                    expense.expense_date.month, expense.expense_date.year,
-                    expense.amount)
-                exp_list.append(new_exp)
+                exp_list[expense.expense_date.day].amount += expense.amount
     return exp_list
 
         
@@ -50,7 +55,9 @@ class index:
         fixed_where = "expenses.type = 'Fixed'"
         fixed_exp = list(db.select('expenses', where=fixed_where))
         var_chart_list = week_exp_list(variable_exp)
+        #var_chart_list.sort(key = lambda x: (x.year, x.month, x.day))
         fix_chart_list = week_exp_list(fixed_exp)
+        #fix_chart_list.sort(key = lambda x: (x.year, x.month, x.day))
         return render.index(variable_exp, fixed_exp, var_chart_list, fix_chart_list)
 
 class expense_form:

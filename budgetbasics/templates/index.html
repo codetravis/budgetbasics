@@ -1,21 +1,34 @@
-$def with (variable_exp, fixed_exp)
+$def with (variable_exp, fixed_exp, var_chart_list, fix_chart_list)
 
 $var scripts: chartjs/Chart.js
 $var title: "Budget Basics"
 
 <script type="text/javascript">
     var data = {
-        labels : ["January", "February", "March"],
+        labels : [
+                $for item in var_chart_list:
+                    $item.day,
+            ],
         datasets : [
             {
+                fillColor : "rgba(220,220,220,0.5)",
+                strokeColor : "rgba(220, 220, 220, 1)",
+                pointColor : "rgba(220, 220, 220, 1)",
+                pointStrokeColor : "#fff",
+                // variable expenses
                 data : [
-                $for exp in variable_exp:
+                $for exp in var_chart_list:
                     $exp.amount,
                 ]
             },
             {
+                fillColor : "rgba(151,187,205,0.5)",
+                strokeColor : "rgba(151,187,205, 1)",
+                pointColor : "rgba(151,187,205, 1)",
+                pointStrokeColor : "#fff",
+                // fixed expenses
                 data : [
-                $for exp in fixed_exp:
+                $for exp in fix_chart_list:
                     $exp.amount,
                 ]
 

@@ -4,6 +4,7 @@
 #sys.path.append(abspath)
 #os.chdir(abspath)
 import web
+import datetime
 
 
 db = web.database(dbn='mysql', user='test', pw='test123', db='budgetbasics')
@@ -19,6 +20,27 @@ urls = (
     '/add_expense', 'add_expense'
 )
 
+class ChartExpense:
+    def __init__(self, day=None, month=None, year=None, amount=0):
+        self.day = day
+        self.month = month
+        self.year = year
+        self.amount = amount
+
+def week_exp_list(expenses, term="week"):
+    exp_list = []
+    today = datetime.date.today()
+    for expense in expenses:
+        if term == "week":
+            if (today - expense.expense_date).days < 7 and (today - expense.expense_date).days >= 0:
+                new_exp = ChartExpense(expense.expense_date.day, 
+                    expense.expense_date.month, expense.expense_date.year,
+                    expense.amount)
+                exp_list.append(new_exp)
+    return exp_list
+
+        
+
 
 
 class index:
@@ -27,8 +49,9 @@ class index:
         variable_exp = list(db.select('expenses', where=var_where))
         fixed_where = "expenses.type = 'Fixed'"
         fixed_exp = list(db.select('expenses', where=fixed_where))
-         
-        return render.index(variable_exp, fixed_exp)
+        var_chart_list = week_exp_list(variable_exp)
+        fix_chart_list = week_exp_list(fixed_exp)
+        return render.index(variable_exp, fixed_exp, var_chart_list, fix_chart_list)
 
 class expense_form:
     def GET(self):

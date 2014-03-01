@@ -5,6 +5,9 @@ $def with (body)
     $if hasattr(body, 'title'):
         <title>$body.title</title>
     <link type="text/css" rel="stylesheet" href="./static/styles/base.css" />
+    $if hasattr(body, 'scripts'):
+        $for script in body.scripts.split():
+            <script type="text/javascript" src="./static/scripts/$script"></script>
 </head>
 <body>
     <div class="main_menu">

@@ -1,14 +1,17 @@
-import sys, os
-abspath = os.path.dirname(__file__)
-sys.path.append(abspath)
-os.chdir(abspath)
+# next 4 lines are for deployment with Apache WSGI
+#import sys, os
+#abspath = os.path.dirname(__file__)
+#sys.path.append(abspath)
+#os.chdir(abspath)
 import web
 
 
 db = web.database(dbn='mysql', user='test', pw='test123', db='budgetbasics')
+
+# including hasattr in global because by default, templates blocks it
 globals()['hasattr'] = hasattr
 
-render = web.template.render('templates/', base='base', globals=globals)
+render = web.template.render('templates/', base='base', globals=globals())
 
 urls = (
     '/', 'index',
@@ -16,7 +19,6 @@ urls = (
     '/add_expense', 'add_expense'
 )
 
-app = web.application(urls, locals())
 
 
 class index:
@@ -40,6 +42,7 @@ class add_expense:
             amount=form.exp_amount)
         raise web.seeother('/')
 
+app = web.application(urls, globals())
 # this condition is for testing
 if __name__ == "__main__":
     app.run()

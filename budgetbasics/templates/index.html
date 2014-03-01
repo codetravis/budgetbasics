@@ -3,9 +3,31 @@ $def with (variable_exp, fixed_exp)
 $var scripts: chartjs/Chart.js
 $var title: "Budget Basics"
 
+<script type="text/javascript">
+    var data = {
+        labels : ["January", "February", "March"],
+        datasets : [
+            {
+                data : [
+                $for exp in variable_exp:
+                    $exp.amount,
+                ]
+            },
+            {
+                data : [
+                $for exp in fixed_exp:
+                    $exp.amount,
+                ]
+
+            }
+
+        ]
+    }
+</script>
 <h1>Budget Basics</h1>
 <div class="graph">
 <!-- put a graph here -->
+<canvas id="main_chart" width="600" height="400" ></canvas>
 </div>
 <div class="column_1">
     <h2>Variable Expense</h2>
@@ -17,3 +39,7 @@ $var title: "Budget Basics"
     $for exp in fixed_exp:
         <p>$exp.name</p><p>$exp.amount</p>
 </div>
+<script type="text/javascript">
+    var ctx = document.getElementById("main_chart").getContext("2d");
+    var expense_chart = new Chart(ctx).Line(data);
+</script>

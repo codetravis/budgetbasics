@@ -1,8 +1,12 @@
+import sys, os
+abspath = os.path.dirname(__file__)
+sys.path.append(abspath)
+os.chdir(abspath)
 import web
 
 
 db = web.database(dbn='mysql', user='test', pw='test123', db='budgetbasics')
-globals = {'hasattr': hasattr}
+globals()['hasattr'] = hasattr
 
 render = web.template.render('templates/', base='base', globals=globals)
 
@@ -36,5 +40,10 @@ class add_expense:
             amount=form.exp_amount)
         raise web.seeother('/')
 
+# this condition is for testing
 if __name__ == "__main__":
     app.run()
+
+# the following lines are for deployment
+#app = web.application(urls, globals(), autoreload=False)
+#application = app.wsgifunc()

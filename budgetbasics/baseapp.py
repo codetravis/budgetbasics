@@ -25,6 +25,7 @@ class ChartExpense:
         self.day = day
         self.month = month
         self.year = year
+        self.this_day = datetime.date(year=year, month=month, day=day)
         self.amount = amount
 
 def week_exp_list(expenses, term="week"):
@@ -38,8 +39,10 @@ def week_exp_list(expenses, term="week"):
     # fill values
     for expense in expenses:
         if term == "week":
-            if (today - expense.expense_date).days < 7 and (today - expense.expense_date).days >= 0:
-                exp_list[expense.expense_date.day].amount += expense.amount
+            if (today - expense.expense_date).days < 31 and (today - expense.expense_date).days >= 0:
+                for some_day in exp_list:
+                    if some_day.this_day == expense.expense_date:
+                        some_day.amount += expense.amount
     exp_list = sorted(exp_list, key=attrgetter('year', 'month', 'day'))
     return exp_list
 

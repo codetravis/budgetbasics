@@ -32,10 +32,8 @@ def week_exp_list(expenses, term="week"):
     # initialize list
     today = datetime.date.today()
     for i in range(0, 31):
-        if (today.day - i > 0):
-            new_exp = ChartExpense(today.day - i, today.month, today.year)
-        else:
-            new_exp = ChartExpense(30 - i + today.day, today.month - 1, today.year)
+        new_day = today - datetime.timedelta(days=i)
+        new_exp = ChartExpense(new_day.day, new_day.month, new_day.year)
         exp_list.append(new_exp)
     # fill values
     for expense in expenses:

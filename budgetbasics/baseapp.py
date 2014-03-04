@@ -28,8 +28,8 @@ class index:
         variable_exp = list(db.select('expenses', where=var_where))
         fixed_where = "expenses.type = 'Fixed'"
         fixed_exp = list(db.select('expenses', where=fixed_where))
-        var_chart_list = week_exp_list(variable_exp)
-        fix_chart_list = week_exp_list(fixed_exp)
+        var_chart_list = rolling_exp_list(variable_exp)
+        fix_chart_list = rolling_exp_list(fixed_exp)
         return render.index(variable_exp, fixed_exp, var_chart_list, fix_chart_list)
 
 class expense_form:

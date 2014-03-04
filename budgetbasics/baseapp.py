@@ -5,13 +5,13 @@
 #os.chdir(abspath)
 import web
 import datetime
-
+from operator import itemgetter, attrgetter
 
 db = web.database(dbn='mysql', user='test', pw='test123', db='budgetbasics')
 
 # including hasattr in global because by default, templates blocks it
 globals()['hasattr'] = hasattr
-
+globals()['str'] = str
 render = web.template.render('templates/', base='base', globals=globals())
 
 urls = (
@@ -42,8 +42,10 @@ def week_exp_list(expenses, term="week"):
         if term == "week":
             if (today - expense.expense_date).days < 7 and (today - expense.expense_date).days >= 0:
                 exp_list[expense.expense_date.day].amount += expense.amount
+    exp_list = sorted(exp_list, key=attrgetter('year', 'month', 'day'))
     return exp_list
 
+# function to get rolling expenses 
         
 
 
@@ -55,9 +57,7 @@ class index:
         fixed_where = "expenses.type = 'Fixed'"
         fixed_exp = list(db.select('expenses', where=fixed_where))
         var_chart_list = week_exp_list(variable_exp)
-        #var_chart_list.sort(key = lambda x: (x.year, x.month, x.day))
         fix_chart_list = week_exp_list(fixed_exp)
-        #fix_chart_list.sort(key = lambda x: (x.year, x.month, x.day))
         return render.index(variable_exp, fixed_exp, var_chart_list, fix_chart_list)
 
 class expense_form:
@@ -71,6 +71,11 @@ class add_expense:
             expense_date=form.exp_date, type=form.exp_type, 
             amount=form.exp_amount)
         raise web.seeother('/')
+
+class rolling_expenses:
+    def GET(self):
+        return "Rolling Expenses"
+
 
 app = web.application(urls, globals())
 # this condition is for testing

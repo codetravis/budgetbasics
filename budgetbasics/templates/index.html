@@ -7,7 +7,7 @@ $var title: "Budget Basics"
     var data = {
         labels : [
                 $for item in var_chart_list:
-                    $item.day,
+                    $str(item.month) + "/" + $str(item.day),
             ],
         datasets : [
             {

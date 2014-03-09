@@ -61,6 +61,9 @@ $var title: "Budget Basics"
         </div>
 </div>
 <script type="text/javascript">
+    var options = {
+        pointDot: false
+    }
     var ctx = document.getElementById("main_chart").getContext("2d");
-    var expense_chart = new Chart(ctx).Line(data);
+    var expense_chart = new Chart(ctx).Line(data, options);
 </script>
